@@ -28,7 +28,7 @@ private const val ARG_PARAM2 = "param2"
  * Use the [HomeFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(),OnClickListener {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -88,7 +88,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun setUpRecyclerView(){
-        mAdapter = PokemonAdapter(pokemons)
+        mAdapter = PokemonAdapter(pokemons,this)
         mGridLayout = GridLayoutManager(requireContext(),2)
 
         mBinding.rvPokemon.apply {
@@ -179,5 +179,9 @@ class HomeFragment : Fragment() {
                     putString(ARG_PARAM2, param2)
                 }
             }
+    }
+
+    override fun onItemClick(pokemon: Pokemon) {
+        Toast.makeText(requireContext(),"Item"+pokemon.name,Toast.LENGTH_SHORT).show()
     }
 }
