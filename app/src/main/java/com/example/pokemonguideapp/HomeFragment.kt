@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.pokemonguideapp.adapters.PokemonAdapter
 import com.example.pokemonguideapp.databinding.FragmentHomeBinding
 import com.example.pokemonguideapp.models.Pokemon
@@ -15,10 +16,7 @@ import com.example.pokemonguideapp.models.PokemonListResponse
 import com.example.pokemonguideapp.models.ResultPokemon
 import com.example.pokemonguideapp.retrofit.PokemonService
 import com.example.pokemonguideapp.retrofit.RetrofitConfig.pokemonService
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -38,8 +36,11 @@ class HomeFragment : Fragment() {
     private lateinit var mBinding: FragmentHomeBinding
     private lateinit var mAdapter: PokemonAdapter
     private lateinit var mGridLayout: GridLayoutManager
+
     private var pokemons: MutableList<Pokemon> = mutableListOf()
     private var pokemonList: MutableList<ResultPokemon> = mutableListOf()
+
+    private var job: Job? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -74,52 +75,26 @@ class HomeFragment : Fragment() {
         val service = retrofit.create(PokemonService::class.java)
         val call = service.searchPokemonById(4)*/
 
-        CoroutineScope(Dispatchers.IO).launch{
+        job = CoroutineScope(Dispatchers.IO).launch{
             getPokemonList()
             getPokemonData()
-
         }
-
-        /*CoroutineScope(Dispatchers.IO).launch{
-            val call = pokemonService.searchPokemonById(4)
-            val pokemon = call.body()
-            withContext(Dispatchers.Main){
-                if(call.isSuccessful){
-                    if (pokemon != null){
-                        pokemons.clear()
-                        pokemons.add(pokemon)
-                        pokemons.add(pokemon)
-                        pokemons.add(pokemon)
-                        pokemons.add(pokemon)
-                        mAdapter.notifyDataSetChanged()
-                    } else{
-                        Log.i("TestAlex","nulo")
-                    }
-                    Toast.makeText(requireContext(), "Exitoso, "+pokemons.count(),Toast.LENGTH_SHORT).show()
-                } else{
-                    Toast.makeText(requireContext(), "Error",Toast.LENGTH_SHORT).show()
-                }
-            }
-
-        }*/
     }
 
-    private fun getPokemonData() {
-        CoroutineScope(Dispatchers.IO).launch{
-            for (i in pokemonList){
-                val call = pokemonService.searchPokemonById(i.url.split("https://pokeapi.co/api/v2/pokemon/")[1].dropLast(1).toInt())
-                val response = call.body()
-                withContext(Dispatchers.Main){
-                    if(call.isSuccessful){
-                        if (response != null){
-                            pokemons.add(response)
-                            mAdapter.notifyDataSetChanged()
-                        }
-                    } else{
-                        Toast.makeText(requireContext(), "Error",Toast.LENGTH_SHORT).show()
-                    }
-                }
-            }
+    private fun setUpViews() {
+        pokemonList.clear()
+        pokemons.clear()
+        setUpRecyclerView()
+    }
+
+    private fun setUpRecyclerView(){
+        mAdapter = PokemonAdapter(pokemons)
+        mGridLayout = GridLayoutManager(requireContext(),2)
+
+        mBinding.rvPokemon.apply {
+            setHasFixedSize(true)
+            layoutManager = mGridLayout
+            adapter = mAdapter
         }
     }
 
@@ -131,7 +106,6 @@ class HomeFragment : Fragment() {
                 if (response != null){
                     pokemonList.addAll(response.results)
                     if(response.next != null){
-                        Log.i("TestAlex","nuevaconsulta : "+response.next.split("?")[1])
                         getPokemonList(response.next.split("?")[1])
                     }
                 }
@@ -147,7 +121,6 @@ class HomeFragment : Fragment() {
                 if (response != null){
                     pokemonList.addAll(response.results)
                     if(response.next != null){
-                        Log.i("TestAlex","nuevaconsulta : "+response.next.split("?")[1])
                         getPokemonList(response.next.split("?")[1])
                     }
                 }
@@ -157,16 +130,35 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun setUpViews() {
-        mAdapter = PokemonAdapter(pokemons)
-        mGridLayout = GridLayoutManager(requireContext(),1)
+    private suspend fun getPokemonData() {
+        if (pokemonList.isNotEmpty()){
+                for (i in pokemonList){
+                    val call = pokemonService.searchPokemonById(i.url.split("https://pokeapi.co/api/v2/pokemon/")[1].dropLast(1).toInt())
+                    val response = call.body()
+                    withContext(Dispatchers.Main){
+                        if(call.isSuccessful){
+                            if (response != null){
+                                pokemons.add(response)
+                                mAdapter.notifyDataSetChanged()
+                            }
+                        } else{
+                            Toast.makeText(requireContext(), "Error",Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
+            }
+    }
 
-        mBinding.rvPokemon.apply {
-            setHasFixedSize(true)
-            layoutManager = mGridLayout
-            adapter = mAdapter
+
+
+    override fun onStop() {
+        super.onStop()
+        if(job != null){
+            if(job!!.isActive){
+                job!!.cancel()
+            }
+            job = null
         }
-
     }
 
     companion object {
