@@ -11,6 +11,9 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.pokemonguideapp.adapters.PokemonAdapter
 import com.example.pokemonguideapp.databinding.FragmentHomeBinding
 import com.example.pokemonguideapp.models.Pokemon
+import com.example.pokemonguideapp.models.PokemonListResponse
+import com.example.pokemonguideapp.models.ResultPokemon
+import com.example.pokemonguideapp.retrofit.PokemonService
 import com.example.pokemonguideapp.retrofit.RetrofitConfig.pokemonService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -36,6 +39,7 @@ class HomeFragment : Fragment() {
     private lateinit var mAdapter: PokemonAdapter
     private lateinit var mGridLayout: GridLayoutManager
     private var pokemons: MutableList<Pokemon> = mutableListOf()
+    private var pokemonList: MutableList<ResultPokemon> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,6 +75,12 @@ class HomeFragment : Fragment() {
         val call = service.searchPokemonById(4)*/
 
         CoroutineScope(Dispatchers.IO).launch{
+            getPokemonList()
+            getPokemonData()
+
+        }
+
+        /*CoroutineScope(Dispatchers.IO).launch{
             val call = pokemonService.searchPokemonById(4)
             val pokemon = call.body()
             withContext(Dispatchers.Main){
@@ -91,9 +101,60 @@ class HomeFragment : Fragment() {
                 }
             }
 
+        }*/
+    }
+
+    private fun getPokemonData() {
+        CoroutineScope(Dispatchers.IO).launch{
+            for (i in pokemonList){
+                val call = pokemonService.searchPokemonById(i.url.split("https://pokeapi.co/api/v2/pokemon/")[1].dropLast(1).toInt())
+                val response = call.body()
+                withContext(Dispatchers.Main){
+                    if(call.isSuccessful){
+                        if (response != null){
+                            pokemons.add(response)
+                            mAdapter.notifyDataSetChanged()
+                        }
+                    } else{
+                        Toast.makeText(requireContext(), "Error",Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
         }
+    }
 
-
+    private suspend fun getPokemonList(url:String? = null){
+        if (url == null){
+            val call = pokemonService.searchPokemonList()
+            val response = call.body()
+            if(call.isSuccessful){
+                if (response != null){
+                    pokemonList.addAll(response.results)
+                    if(response.next != null){
+                        Log.i("TestAlex","nuevaconsulta : "+response.next.split("?")[1])
+                        getPokemonList(response.next.split("?")[1])
+                    }
+                }
+            } else{
+                Log.i("TestAlex","Error")
+            }
+        } else{
+            val offset = url.split("offset=")[1].split("&")[0].toInt()
+            val limit = url.split("limit=")[1].toInt()
+            val call = pokemonService.searchPokemonListParams(offset, limit)
+            val response = call.body()
+            if(call.isSuccessful){
+                if (response != null){
+                    pokemonList.addAll(response.results)
+                    if(response.next != null){
+                        Log.i("TestAlex","nuevaconsulta : "+response.next.split("?")[1])
+                        getPokemonList(response.next.split("?")[1])
+                    }
+                }
+            } else{
+                Log.i("TestAlex","Error")
+            }
+        }
     }
 
     private fun setUpViews() {
