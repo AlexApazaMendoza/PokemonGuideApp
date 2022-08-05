@@ -1,12 +1,21 @@
 package com.example.pokemonguideapp
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
 import com.example.pokemonguideapp.adapters.PokemonAdapter
 import com.example.pokemonguideapp.databinding.FragmentHomeBinding
+import com.example.pokemonguideapp.models.Pokemon
+import com.example.pokemonguideapp.retrofit.RetrofitConfig.pokemonService
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -25,6 +34,8 @@ class HomeFragment : Fragment() {
 
     private lateinit var mBinding: FragmentHomeBinding
     private lateinit var mAdapter: PokemonAdapter
+    private lateinit var mGridLayout: GridLayoutManager
+    private var pokemons: MutableList<Pokemon> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,8 +57,55 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        mAdapter = PokemonAdapter(mutableListOf())
-        mBinding.rvPokemon.adapter = mAdapter
+        setUpViews()
+
+        /***
+         * Retrofit Local
+         */
+        /*val retrofit = Retrofit.Builder()
+            .baseUrl("https://pokeapi.co/api/v2/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+        val service = retrofit.create(PokemonService::class.java)
+        val call = service.searchPokemonById(4)*/
+
+        CoroutineScope(Dispatchers.IO).launch{
+            val call = pokemonService.searchPokemonById(4)
+            val pokemon = call.body()
+            withContext(Dispatchers.Main){
+                if(call.isSuccessful){
+                    if (pokemon != null){
+                        pokemons.clear()
+                        pokemons.add(pokemon)
+                        pokemons.add(pokemon)
+                        pokemons.add(pokemon)
+                        pokemons.add(pokemon)
+                        mAdapter.notifyDataSetChanged()
+                    } else{
+                        Log.i("TestAlex","nulo")
+                    }
+                    Toast.makeText(requireContext(), "Exitoso, "+pokemons.count(),Toast.LENGTH_SHORT).show()
+                } else{
+                    Toast.makeText(requireContext(), "Error",Toast.LENGTH_SHORT).show()
+                }
+            }
+
+        }
+
+
+    }
+
+    private fun setUpViews() {
+        mAdapter = PokemonAdapter(pokemons)
+        mGridLayout = GridLayoutManager(requireContext(),1)
+
+        mBinding.rvPokemon.apply {
+            setHasFixedSize(true)
+            layoutManager = mGridLayout
+            adapter = mAdapter
+        }
+
     }
 
     companion object {
