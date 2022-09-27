@@ -25,7 +25,7 @@ class PokemonAdapter(private val dataSet:MutableList<PokemonResponse>, private v
 
         fun setListener(pokemon: PokemonResponse){
             binding.root.setOnClickListener {
-                listener.onItemClick(pokemon)
+                listener.onItemPokemonClick(pokemon)
             }
         }
     }

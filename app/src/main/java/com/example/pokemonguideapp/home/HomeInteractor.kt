@@ -1,4 +1,4 @@
-package com.example.pokemonguideapp
+package com.example.pokemonguideapp.home
 
 import android.util.Log
 import com.example.pokemonguideapp.models.PokemonResponse

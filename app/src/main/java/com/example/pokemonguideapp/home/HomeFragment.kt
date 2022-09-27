@@ -1,4 +1,4 @@
-package com.example.pokemonguideapp
+package com.example.pokemonguideapp.home
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -10,7 +10,10 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.pokemonguideapp.OnClickListener
+import com.example.pokemonguideapp.adapters.GenerationAdapter
 import com.example.pokemonguideapp.adapters.PokemonAdapter
 import com.example.pokemonguideapp.databinding.FragmentHomeBinding
 import com.example.pokemonguideapp.models.*
@@ -29,7 +32,7 @@ private const val ARG_PARAM2 = "param2"
  * Use the [HomeFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class HomeFragment : Fragment(),OnClickListener {
+class HomeFragment : Fragment(), OnClickListener {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -37,8 +40,13 @@ class HomeFragment : Fragment(),OnClickListener {
     private lateinit var mBinding: FragmentHomeBinding
     private lateinit var mViewModel: HomeViewModel
 
-    private lateinit var mAdapter: PokemonAdapter
+    private lateinit var mPokemonAdapter: PokemonAdapter
     private lateinit var mGridLayout: GridLayoutManager
+
+    private lateinit var mGenerationAdapter: GenerationAdapter
+    private lateinit var mLayoutManager:LinearLayoutManager
+    private var generations: MutableList<ResultGeneration> = mutableListOf()
+
 
     private var pokemons: MutableList<PokemonResponse> = mutableListOf()
 
@@ -74,19 +82,34 @@ class HomeFragment : Fragment(),OnClickListener {
         mViewModel.pokemonList.observe(viewLifecycleOwner){
             pokemons.clear()
             pokemons.addAll(it)
-            mAdapter.notifyDataSetChanged()
+            mPokemonAdapter.notifyDataSetChanged()
+        }
+        mViewModel.generationList.observe(viewLifecycleOwner){
+            generations.clear()
+            generations.addAll(it)
+            mGenerationAdapter.notifyDataSetChanged()
         }
     }
 
     private fun setUpRecyclerView(){
-        mAdapter = PokemonAdapter(pokemons,this)
+        mPokemonAdapter = PokemonAdapter(pokemons,this)
         mGridLayout = GridLayoutManager(requireContext(),2)
 
         mBinding.rvPokemon.apply {
             setHasFixedSize(true)
             layoutManager = mGridLayout
-            adapter = mAdapter
+            adapter = mPokemonAdapter
         }
+
+        mGenerationAdapter = GenerationAdapter(generations,this)
+        mLayoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL, false)
+
+        mBinding.rvGeneration.apply {
+            setHasFixedSize(true)
+            layoutManager = mLayoutManager
+            adapter = mGenerationAdapter
+        }
+
     }
 
     companion object {
@@ -109,7 +132,11 @@ class HomeFragment : Fragment(),OnClickListener {
             }
     }
 
-    override fun onItemClick(pokemon: PokemonResponse) {
-        Toast.makeText(requireContext(),"Item"+pokemon.name,Toast.LENGTH_SHORT).show()
+    override fun onItemPokemonClick(pokemon: PokemonResponse) {
+        Toast.makeText(requireContext(),"Item: "+pokemon.name,Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onItemGenerationClick(generation: ResultGeneration) {
+        mViewModel.onItemGenerationClick(generation)
     }
 }
