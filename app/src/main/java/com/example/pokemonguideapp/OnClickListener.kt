@@ -1,7 +1,7 @@
 package com.example.pokemonguideapp
 
-import com.example.pokemonguideapp.models.Pokemon
+import com.example.pokemonguideapp.models.PokemonResponse
 
 interface OnClickListener {
-    fun onItemClick(pokemon: Pokemon)
+    fun onItemClick(pokemon: PokemonResponse)
 }

@@ -1,5 +1,6 @@
 package com.example.pokemonguideapp
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -7,16 +8,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pokemonguideapp.adapters.PokemonAdapter
 import com.example.pokemonguideapp.databinding.FragmentHomeBinding
-import com.example.pokemonguideapp.models.Pokemon
-import com.example.pokemonguideapp.models.PokemonListResponse
-import com.example.pokemonguideapp.models.ResultPokemon
+import com.example.pokemonguideapp.models.*
 import com.example.pokemonguideapp.retrofit.PokemonService
 import com.example.pokemonguideapp.retrofit.RetrofitConfig.pokemonService
 import kotlinx.coroutines.*
+import okhttp3.internal.notify
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -34,13 +35,12 @@ class HomeFragment : Fragment(),OnClickListener {
     private var param2: String? = null
 
     private lateinit var mBinding: FragmentHomeBinding
+    private lateinit var mViewModel: HomeViewModel
+
     private lateinit var mAdapter: PokemonAdapter
     private lateinit var mGridLayout: GridLayoutManager
 
-    private var pokemons: MutableList<Pokemon> = mutableListOf()
-    private var pokemonList: MutableList<ResultPokemon> = mutableListOf()
-
-    private var job: Job? = null
+    private var pokemons: MutableList<PokemonResponse> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,29 +62,20 @@ class HomeFragment : Fragment(),OnClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setUpViews()
+        setUpViewModel()
+        setUpRecyclerView()
 
-        /***
-         * Retrofit Local
-         */
-        /*val retrofit = Retrofit.Builder()
-            .baseUrl("https://pokeapi.co/api/v2/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-
-        val service = retrofit.create(PokemonService::class.java)
-        val call = service.searchPokemonById(4)*/
-
-        job = CoroutineScope(Dispatchers.IO).launch{
-            getPokemonList()
-            getPokemonData()
-        }
+        mViewModel.getPokemons()
     }
 
-    private fun setUpViews() {
-        pokemonList.clear()
-        pokemons.clear()
-        setUpRecyclerView()
+    private fun setUpViewModel() {
+        mViewModel = ViewModelProvider(this)[HomeViewModel::class.java]
+
+        mViewModel.pokemonList.observe(viewLifecycleOwner){
+            pokemons.clear()
+            pokemons.addAll(it)
+            mAdapter.notifyDataSetChanged()
+        }
     }
 
     private fun setUpRecyclerView(){
@@ -95,69 +86,6 @@ class HomeFragment : Fragment(),OnClickListener {
             setHasFixedSize(true)
             layoutManager = mGridLayout
             adapter = mAdapter
-        }
-    }
-
-    private suspend fun getPokemonList(url:String? = null){
-        if (url == null){
-            val call = pokemonService.searchPokemonList()
-            val response = call.body()
-            if(call.isSuccessful){
-                if (response != null){
-                    pokemonList.addAll(response.results)
-                    if(response.next != null){
-                        getPokemonList(response.next.split("?")[1])
-                    }
-                }
-            } else{
-                Log.i("TestAlex","Error")
-            }
-        } else{
-            val offset = url.split("offset=")[1].split("&")[0].toInt()
-            val limit = url.split("limit=")[1].toInt()
-            val call = pokemonService.searchPokemonListParams(offset, limit)
-            val response = call.body()
-            if(call.isSuccessful){
-                if (response != null){
-                    pokemonList.addAll(response.results)
-                    if(response.next != null){
-                        getPokemonList(response.next.split("?")[1])
-                    }
-                }
-            } else{
-                Log.i("TestAlex","Error")
-            }
-        }
-    }
-
-    private suspend fun getPokemonData() {
-        if (pokemonList.isNotEmpty()){
-                for (i in pokemonList){
-                    val call = pokemonService.searchPokemonById(i.url.split("https://pokeapi.co/api/v2/pokemon/")[1].dropLast(1).toInt())
-                    val response = call.body()
-                    withContext(Dispatchers.Main){
-                        if(call.isSuccessful){
-                            if (response != null){
-                                pokemons.add(response)
-                                mAdapter.notifyDataSetChanged()
-                            }
-                        } else{
-                            Toast.makeText(requireContext(), "Error",Toast.LENGTH_SHORT).show()
-                        }
-                    }
-                }
-            }
-    }
-
-
-
-    override fun onStop() {
-        super.onStop()
-        if(job != null){
-            if(job!!.isActive){
-                job!!.cancel()
-            }
-            job = null
         }
     }
 
@@ -181,7 +109,7 @@ class HomeFragment : Fragment(),OnClickListener {
             }
     }
 
-    override fun onItemClick(pokemon: Pokemon) {
+    override fun onItemClick(pokemon: PokemonResponse) {
         Toast.makeText(requireContext(),"Item"+pokemon.name,Toast.LENGTH_SHORT).show()
     }
 }

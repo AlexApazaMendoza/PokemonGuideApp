@@ -8,6 +8,6 @@ data class PokemonListResponse(
 )
 
 data class ResultPokemon (
-    val name: String,
-    val url: String
+    val name: String,   //"bulbasaur"
+    val url: String     //"https://pokeapi.co/api/v2/pokemon/1/"
 )

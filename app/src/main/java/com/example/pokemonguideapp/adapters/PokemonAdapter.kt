@@ -10,9 +10,9 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.pokemonguideapp.OnClickListener
 import com.example.pokemonguideapp.R
 import com.example.pokemonguideapp.databinding.PokemonRowItemBinding
-import com.example.pokemonguideapp.models.Pokemon
+import com.example.pokemonguideapp.models.PokemonResponse
 
-class PokemonAdapter(private val dataSet:MutableList<Pokemon>, private var listener: OnClickListener) :
+class PokemonAdapter(private val dataSet:MutableList<PokemonResponse>, private var listener: OnClickListener) :
     RecyclerView.Adapter<PokemonAdapter.ViewHolder>(){
 
     private lateinit var mContext: Context
@@ -23,7 +23,7 @@ class PokemonAdapter(private val dataSet:MutableList<Pokemon>, private var liste
      inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
          val binding = PokemonRowItemBinding.bind(view)
 
-        fun setListener(pokemon: Pokemon){
+        fun setListener(pokemon: PokemonResponse){
             binding.root.setOnClickListener {
                 listener.onItemClick(pokemon)
             }

@@ -2,7 +2,7 @@ package com.example.pokemonguideapp.models
 
 import com.google.gson.annotations.SerializedName
 
-data class Pokemon (
+data class PokemonResponse (
     val id: Long,
     val name: String,
     @SerializedName("base_experience")
@@ -13,74 +13,33 @@ data class Pokemon (
     val order: Long,
     val weight: Long,
     val abilities: List<Ability>,
-    val forms: List<Species>,
-    @SerializedName("game_indices")
-    val gameIndices: List<GameIndex>,
-    @SerializedName("held_items")
-    val heldItems: List<HeldItem>,
     @SerializedName("location_area_encounters")
-    val locationAreaEncounters: String,
+    val locationAreaEncounters: String, //"https://pokeapi.co/api/v2/pokemon/252/encounters"
     val moves: List<Move>,
-    val species: Species,
+    val species: ResultPokemonSpecies,
     val sprites: Sprites,
-    val stats: List<Stat>,
-    val types: List<Type>,
-    @SerializedName("past_types")
-    val pastTypes: List<PastType>
+    val stats: List<Stat>
 )
 
 data class Ability (
     @SerializedName("is_hidden")
     val isHidden: Boolean,
     val slot: Long,
-    val ability: Species
+    val ability: ResultAbility
 )
 
-data class Species (
+data class ResultAbility (
     val name: String,
-    val url: String
-)
-
-data class GameIndex (
-    @SerializedName("game_index")
-    val gameIndex: Long,
-    val version: Species
-)
-
-data class HeldItem (
-    val item: Species,
-    @SerializedName("version_details")
-    val versionDetails: List<VersionDetail>
-)
-
-data class VersionDetail (
-    val rarity: Long,
-    val version: Species
+    val url: String     //"https://pokeapi.co/api/v2/ability/65/"
 )
 
 data class Move (
-    val move: Species,
-    @SerializedName("version_group_details")
-    val versionGroupDetails: List<VersionGroupDetail>
+    val move: ResultMove,
 )
 
-data class VersionGroupDetail (
-    @SerializedName("level_learned_at")
-    val levelLearnedAt: Long,
-    @SerializedName("version_group")
-    val versionGroup: Species,
-    @SerializedName("move_learn_method")
-    val moveLearnMethod: Species
-)
-
-data class PastType (
-    val generation: Species,
-    val types: List<Type>
-)
-
-data class Type (
-    val slot: Long,
-    val type: Species
+data class ResultMove (
+    val name: String,
+    val url: String     //"https://pokeapi.co/api/v2/move/1/"
 )
 
 data class GenerationV (
@@ -231,5 +190,10 @@ data class Stat (
     @SerializedName("base_stat")
     val baseStat: Long,
     val effort: Long,
-    val stat: Species
+    val stat: ResultStat
+)
+
+data class ResultStat (
+    val name: String,
+    val url: String     //"https://pokeapi.co/api/v2/stat/1/"
 )
