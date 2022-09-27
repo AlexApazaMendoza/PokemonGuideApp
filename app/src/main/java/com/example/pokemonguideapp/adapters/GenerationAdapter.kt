@@ -1,9 +1,11 @@
 package com.example.pokemonguideapp.adapters
 
 import android.content.Context
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.ColorInt
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pokemonguideapp.OnClickListener
 import com.example.pokemonguideapp.R
@@ -39,6 +41,7 @@ class GenerationAdapter(private val dataSet:MutableList<ResultGeneration>, priva
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         with(holder){
             setListener(dataSet[position])
+            mBinding.cvGeneration.setCardBackgroundColor(Color.YELLOW)
             mBinding.tvGenerationTitle.text = dataSet[position].name
         }
     }

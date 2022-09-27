@@ -9,10 +9,11 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvGeneration"
         android:layout_width="match_parent"
-        android:layout_height="36dp"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:scrollbars="horizontal"
-        tools:itemCount="3"
+        tools:itemCount="1"
+        android:padding="4dp"
         tools:listitem="@layout/generation_row_item"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
