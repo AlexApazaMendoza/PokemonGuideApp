@@ -11,21 +11,27 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:scrollbars="horizontal"
         tools:itemCount="1"
-        android:padding="4dp"
         tools:listitem="@layout/generation_row_item"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
-    <!-- TODO: Update blank fragment layout -->
+    <View
+        android:id="@+id/vSeparator"
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rvGeneration"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvPokemon"
         android:layout_width="0dp"
         android:layout_height="0dp"
         tools:listitem="@layout/pokemon_row_item"
-        app:layout_constraintTop_toBottomOf="@+id/rvGeneration"
+        app:layout_constraintTop_toBottomOf="@+id/vSeparator"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"/>
