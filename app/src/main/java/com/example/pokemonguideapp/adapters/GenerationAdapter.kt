@@ -23,7 +23,7 @@ class GenerationAdapter(private val dataSet:MutableList<ResultGeneration>, priva
         val mBinding = GenerationRowItemBinding.bind(view)
 
         fun setListener(resultGeneration: ResultGeneration){
-            mBinding.root.setOnClickListener {
+            mBinding.cvGeneration.setOnClickListener {
                 listener.onItemGenerationClick(resultGeneration)
             }
         }

@@ -48,12 +48,36 @@ class HomeInteractor {
                 if(call.isSuccessful){
                     if (response != null){
                         pokemonDataList.add(response)
+                        callback(pokemonDataList)
                     }
                 } else {
                     Log.i("TestAlex","Error - getPokemonDataListByNameList (${p})")
                 }
             }
-            callback(pokemonDataList)
+        }
+    }
+
+    suspend fun getPokemonDataListByGeneration(name: String, callback: (MutableList<PokemonResponse>) -> Unit){
+        val callGeneration = RetrofitConfig.pokemonService.searchGenerationByName(name)
+        val responseGeneration = callGeneration.body()
+        if(callGeneration.isSuccessful){
+            if (responseGeneration != null){
+                val pokemonDataList = mutableListOf<PokemonResponse>()
+                for (p in responseGeneration.pokemonSpecies.toMutableList()){
+                    val callPokemon = RetrofitConfig.pokemonService.searchPokemonByName(p.name)
+                    val responsePokemon = callPokemon.body()
+                    if(callPokemon.isSuccessful){
+                        if (responsePokemon != null){
+                            pokemonDataList.add(responsePokemon)
+                            callback(pokemonDataList)
+                        }
+                    } else {
+                        Log.i("TestAlex","Error - getPokemonDataListByNameList (${p})")
+                    }
+                }
+            }
+        } else {
+            Log.i("TestAlex","Error - getPokemonDataListByGeneration")
         }
     }
 }

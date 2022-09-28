@@ -6,6 +6,10 @@ import androidx.lifecycle.ViewModel
 import com.example.pokemonguideapp.models.GenerationResponse
 import com.example.pokemonguideapp.models.PokemonResponse
 import com.example.pokemonguideapp.models.ResultGeneration
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
 class HomeViewModel: ViewModel() {
 
@@ -14,6 +18,8 @@ class HomeViewModel: ViewModel() {
 
     private val _generationList = MutableLiveData<MutableList<ResultGeneration>>(mutableListOf())
     val generationList: LiveData<MutableList<ResultGeneration>> = _generationList
+
+    var job: Job? = null
 
     private val interactor: HomeInteractor
 
@@ -25,19 +31,27 @@ class HomeViewModel: ViewModel() {
     fun getPokemons(){
         interactor.getGenerationList { generationList ->
             _generationList.postValue(generationList)
-            interactor.getPokemonSpecieListByGenerationName(generationList.firstOrNull()?.name ?: ""){ pokemonSpeciesList ->
-                interactor.getPokemonDataListByPokemonNameList(pokemonSpeciesList.map { it.name }.toMutableList()){ pokemonList ->
-                    _pokemonList.postValue(pokemonList)
-                }
+            job = CoroutineScope(Dispatchers.IO).launch{
+                getPokemonDataListByGeneration(generationList.first())
             }
         }
     }
 
     fun onItemGenerationClick(generation: ResultGeneration){
-        interactor.getPokemonSpecieListByGenerationName(generation.name){ pokemonSpeciesList ->
-            interactor.getPokemonDataListByPokemonNameList(pokemonSpeciesList.map { it.name }.toMutableList()){ pokemonList ->
-                _pokemonList.postValue(pokemonList)
+        if(job != null){
+            if(job!!.isActive){
+                job!!.cancel()
+                job = null
             }
+        }
+        job = CoroutineScope(Dispatchers.IO).launch{
+            getPokemonDataListByGeneration(generation)
+        }
+    }
+
+    private suspend fun getPokemonDataListByGeneration(generation: ResultGeneration){
+        interactor.getPokemonDataListByGeneration(generation.name){ pokemonList ->
+            _pokemonList.postValue(pokemonList)
         }
     }
 
