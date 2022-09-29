@@ -11,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:layout_marginVertical="@dimen/common_margin_min"
         tools:itemCount="1"
         tools:listitem="@layout/generation_row_item"
         app:layout_constraintTop_toTopOf="parent"
