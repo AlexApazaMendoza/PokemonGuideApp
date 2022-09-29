@@ -23,7 +23,7 @@ class GenerationAdapter(private val dataSet:MutableList<ResultGeneration>, priva
         val mBinding = GenerationRowItemBinding.bind(view)
 
         fun setListener(resultGeneration: ResultGeneration){
-            mBinding.cvGeneration.setOnClickListener {
+            mBinding.root.setOnClickListener {
                 listener.onItemGenerationClick(resultGeneration)
             }
         }
@@ -41,7 +41,6 @@ class GenerationAdapter(private val dataSet:MutableList<ResultGeneration>, priva
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         with(holder){
             setListener(dataSet[position])
-            mBinding.cvGeneration.setCardBackgroundColor(Color.YELLOW)
             mBinding.tvGenerationTitle.text = dataSet[position].name
         }
     }
