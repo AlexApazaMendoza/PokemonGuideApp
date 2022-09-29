@@ -1,5 +1,6 @@
 package com.example.pokemonguideapp.adapters
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +12,7 @@ import com.example.pokemonguideapp.OnClickListener
 import com.example.pokemonguideapp.R
 import com.example.pokemonguideapp.databinding.PokemonRowItemBinding
 import com.example.pokemonguideapp.models.PokemonResponse
+import com.example.pokemonguideapp.toNamePokemonDisplay
 
 class PokemonAdapter(private val dataSet:MutableList<PokemonResponse>, private var listener: OnClickListener) :
     RecyclerView.Adapter<PokemonAdapter.ViewHolder>(){
@@ -38,10 +40,12 @@ class PokemonAdapter(private val dataSet:MutableList<PokemonResponse>, private v
         return ViewHolder(view)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         with(holder){
             setListener(dataSet[position])
-            binding.namePokemon.text = dataSet[position].name
+            binding.namePokemon.text = dataSet[position].name.toNamePokemonDisplay()
+            binding.orderPokemon.text = "#${dataSet[position].order.toString().padStart(3,'0')}"
             Glide.with(mContext)
                 .load(dataSet[position].sprites.frontDefault)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
