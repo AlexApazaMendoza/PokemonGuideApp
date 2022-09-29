@@ -16,6 +16,7 @@ import com.example.pokemonguideapp.OnClickListener
 import com.example.pokemonguideapp.adapters.GenerationAdapter
 import com.example.pokemonguideapp.adapters.PokemonAdapter
 import com.example.pokemonguideapp.databinding.FragmentHomeBinding
+import com.example.pokemonguideapp.dialogs.PokemonDetailDialog
 import com.example.pokemonguideapp.models.*
 import com.example.pokemonguideapp.retrofit.PokemonService
 import com.example.pokemonguideapp.retrofit.RetrofitConfig.pokemonService
@@ -136,7 +137,8 @@ class HomeFragment : Fragment(), OnClickListener {
     }
 
     override fun onItemPokemonClick(pokemon: PokemonResponse) {
-        Toast.makeText(requireContext(),"Item: "+pokemon.name,Toast.LENGTH_SHORT).show()
+        //Toast.makeText(requireContext(),"Item: "+pokemon.name,Toast.LENGTH_SHORT).show()
+        PokemonDetailDialog(pokemon).show(requireActivity().supportFragmentManager,"MyDialog")
     }
 
     override fun onItemGenerationClick(generation: ResultGeneration) {

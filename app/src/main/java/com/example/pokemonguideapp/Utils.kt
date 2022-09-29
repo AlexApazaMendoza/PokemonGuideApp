@@ -9,3 +9,11 @@ fun String.toNamePokemonDisplay():String{
         this
     }
 }
+
+fun String.toHeightPokemonDisplay():String{
+    return "$this m."
+}
+
+fun String.toWeightPokemonDisplay():String{
+    return "$this kg."
+}

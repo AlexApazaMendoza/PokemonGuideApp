@@ -18,7 +18,17 @@ data class PokemonResponse (
     val moves: List<Move>,
     val species: ResultPokemonSpecies,
     val sprites: Sprites,
-    val stats: List<Stat>
+    val stats: List<Stat>,
+    val types: List<Type>
+)
+data class Type(
+    val slot: Long,
+    val type: ResultType,
+)
+
+data class ResultType(
+    val name: String?,  //"grass"
+    val url: String?,   //"https://pokeapi.co/api/v2/type/12/"
 )
 
 data class Ability (
