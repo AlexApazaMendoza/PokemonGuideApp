@@ -61,7 +61,7 @@ class HomeFragment : Fragment(), OnClickListener {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         mBinding = FragmentHomeBinding.inflate(inflater,container,false)
         // Inflate the layout for this fragment
         return mBinding.root
@@ -72,10 +72,14 @@ class HomeFragment : Fragment(), OnClickListener {
 
         setUpViewModel()
         setUpRecyclerView()
-
-        mViewModel.getPokemons()
+        initializePokemonList()
     }
 
+    private fun initializePokemonList() {
+        if(pokemons.isEmpty()){ mViewModel.getPokemons() }
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
     private fun setUpViewModel() {
         mViewModel = ViewModelProvider(this)[HomeViewModel::class.java]
 
@@ -109,7 +113,6 @@ class HomeFragment : Fragment(), OnClickListener {
             layoutManager = mLayoutManager
             adapter = mGenerationAdapter
         }
-
     }
 
     companion object {
