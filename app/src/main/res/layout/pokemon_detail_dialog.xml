@@ -46,6 +46,8 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:layout_marginVertical="@dimen/common_margin_min"
+            android:textAppearance="?attr/textAppearanceBody1"
+            android:textAllCaps="true"
             tools:text="Pikachu"
             app:layout_constraintTop_toBottomOf="@+id/imgPokemon"
             app:layout_constraintStart_toStartOf="parent"
@@ -55,30 +57,50 @@
             android:id="@+id/tvHeightPokemon"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:layout_marginVertical="@dimen/common_margin_min"
+            android:layout_marginStart="@dimen/common_margin_min"
             tools:text="9 m"
             app:layout_constraintTop_toBottomOf="@+id/tvNamePokemon"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/ivHeight"
             app:layout_constraintEnd_toStartOf="@id/guideline"/>
+
+        <ImageView
+            android:id="@+id/ivHeight"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_height"
+            app:layout_constraintTop_toTopOf="@+id/tvHeightPokemon"
+            app:layout_constraintBottom_toBottomOf="@+id/tvHeightPokemon"
+            app:layout_constraintStart_toStartOf="parent"/>
 
         <TextView
             android:id="@+id/tvWeightPokemon"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:layout_marginVertical="@dimen/common_margin_min"
+            android:layout_marginStart="@dimen/common_margin_min"
             tools:text="60 kg"
             app:layout_constraintTop_toBottomOf="@+id/tvNamePokemon"
-            app:layout_constraintStart_toEndOf="@id/guideline"
+            app:layout_constraintStart_toEndOf="@id/ivWeight"
             app:layout_constraintEnd_toEndOf="parent"/>
+
+        <ImageView
+            android:id="@+id/ivWeight"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_weight"
+            app:layout_constraintTop_toTopOf="@+id/tvWeightPokemon"
+            app:layout_constraintBottom_toBottomOf="@+id/tvWeightPokemon"
+            app:layout_constraintStart_toStartOf="@id/guideline"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvTypePokemon"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:itemCount="2"
             android:layout_marginVertical="@dimen/common_margin_min"
+            android:orientation="horizontal"
+            android:foregroundGravity="center"
             tools:listitem="@layout/pokemon_type_row_item"
             app:layout_constraintTop_toBottomOf="@+id/tvHeightPokemon"
             app:layout_constraintStart_toStartOf="parent"

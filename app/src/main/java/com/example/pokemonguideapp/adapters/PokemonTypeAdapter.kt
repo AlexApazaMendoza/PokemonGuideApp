@@ -33,6 +33,29 @@ class PokemonTypeAdapter(private val dataSet:MutableList<Type>, )
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         with(holder){
             binding.tvTypePokemonTitle.text = dataSet[position].type.name
+            binding.root.setBackgroundResource(
+                when(dataSet[position].type.name){
+                    "steel" -> R.color.color_type_pokemon_steel
+                    "water" -> R.color.color_type_pokemon_water
+                    "bug" -> R.color.color_type_pokemon_bug
+                    "dragon" -> R.color.color_type_pokemon_dragon
+                    "electric" -> R.color.color_type_pokemon_electric
+                    "ghost" -> R.color.color_type_pokemon_ghost
+                    "fire" -> R.color.color_type_pokemon_fire
+                    "fairy" -> R.color.color_type_pokemon_fairy
+                    "ice" -> R.color.color_type_pokemon_ice
+                    "fighting" -> R.color.color_type_pokemon_fighting
+                    "normal" -> R.color.color_type_pokemon_normal
+                    "grass" -> R.color.color_type_pokemon_grass
+                    "psychic" -> R.color.color_type_pokemon_psychic
+                    "dark" -> R.color.color_type_pokemon_dark
+                    "ground" -> R.color.color_type_pokemon_ground
+                    "poison" -> R.color.color_type_pokemon_poison
+                    "flying" -> R.color.color_type_pokemon_flying
+                    "rock" -> R.color.color_type_pokemon_rock
+                    else -> R.color.white
+                }
+            )
         }
     }
 

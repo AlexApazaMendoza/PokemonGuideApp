@@ -4,6 +4,8 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/User/AndroidStudioProjects/PokemonGuideApp/app/src/main/res/drawable/ic_catching_pokemon.xml" value="0.157" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/PokemonGuideApp/app/src/main/res/drawable/ic_height.xml" value="0.157" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/PokemonGuideApp/app/src/main/res/drawable/round_corner.xml" value="0.14" />
         <entry key="..\:/Users/User/AndroidStudioProjects/PokemonGuideApp/app/src/main/res/layout/activity_main.xml" value="0.19010416666666666" />
         <entry key="..\:/Users/User/AndroidStudioProjects/PokemonGuideApp/app/src/main/res/layout/fragment_add.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/User/AndroidStudioProjects/PokemonGuideApp/app/src/main/res/layout/fragment_detail_pokemon.xml" value="0.20416666666666666" />
@@ -12,7 +14,7 @@
         <entry key="..\:/Users/User/AndroidStudioProjects/PokemonGuideApp/app/src/main/res/layout/generation_row_item.xml" value="0.5" />
         <entry key="..\:/Users/User/AndroidStudioProjects/PokemonGuideApp/app/src/main/res/layout/pokemon_detail_dialog.xml" value="0.25" />
         <entry key="..\:/Users/User/AndroidStudioProjects/PokemonGuideApp/app/src/main/res/layout/pokemon_row_item.xml" value="0.25" />
-        <entry key="..\:/Users/User/AndroidStudioProjects/PokemonGuideApp/app/src/main/res/layout/pokemon_type_row_item.xml" value="0.203125" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/PokemonGuideApp/app/src/main/res/layout/pokemon_type_row_item.xml" value="0.33" />
         <entry key="..\:/Users/User/AndroidStudioProjects/PokemonGuideApp/app/src/main/res/layout/type_ pokemon_row_item.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/User/AndroidStudioProjects/PokemonGuideApp/app/src/main/res/menu/bottom_nav_menu.xml" value="0.203125" />
       </map>

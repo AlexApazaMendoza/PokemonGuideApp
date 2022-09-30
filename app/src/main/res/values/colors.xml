@@ -7,4 +7,42 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="color_type_pokemon_normal">#DDCCAA</color>
+    <color name="color_type_pokemon_normal_light">#eee5d4</color>
+    <color name="color_type_pokemon_fighting">#FF6A6A</color>
+    <color name="color_type_pokemon_fighting_light">#ffb4b4</color>
+    <color name="color_type_pokemon_flying">#BAAAFF</color>
+    <color name="color_type_pokemon_flying_light">#dcd4fe</color>
+    <color name="color_type_pokemon_poison">#CC88BB</color>
+    <color name="color_type_pokemon_poison_light">#e5c3dd</color>
+    <color name="color_type_pokemon_ground">#DEB887</color>
+    <color name="color_type_pokemon_ground_light">#eedbc3</color>
+    <color name="color_type_pokemon_rock">#CD853F</color>
+    <color name="color_type_pokemon_rock_light">#e6c29e</color>
+    <color name="color_type_pokemon_bug">#99CC33</color>
+    <color name="color_type_pokemon_bug_light">#cbe599</color>
+    <color name="color_type_pokemon_ghost">#778899</color>
+    <color name="color_type_pokemon_ghost_light">#bbc3cb</color>
+    <color name="color_type_pokemon_steel">#CCCCCC</color>
+    <color name="color_type_pokemon_steel_light">#e5e5e5</color>
+    <color name="color_type_pokemon_fire">#FF7F00</color>
+    <color name="color_type_pokemon_fire_light">#ffbf7f</color>
+    <color name="color_type_pokemon_water">#B0E2FF</color>
+    <color name="color_type_pokemon_water_light">#d7f0ff</color>
+    <color name="color_type_pokemon_grass">#99FF66</color>
+    <color name="color_type_pokemon_grass_light">#cbffb2</color>
+    <color name="color_type_pokemon_electric">#FFD700</color>
+    <color name="color_type_pokemon_electric_light">#ffeb7f</color>
+    <color name="color_type_pokemon_psychic">#FFB5C5</color>
+    <color name="color_type_pokemon_psychic_light">#ffdae2</color>
+    <color name="color_type_pokemon_ice">#ADD8E6</color>
+    <color name="color_type_pokemon_ice_light">#d6ebf2</color>
+    <color name="color_type_pokemon_dragon">#AB82FF</color>
+    <color name="color_type_pokemon_dragon_light">#d5c0ff</color>
+    <color name="color_type_pokemon_dark">#A9A9A9</color>
+    <color name="color_type_pokemon_dark_light">#d3d3d3</color>
+    <color name="color_type_pokemon_fairy">#FFB0FF</color>
+    <color name="color_type_pokemon_fairy_light">#ffd7ff</color>
+
 </resources>
