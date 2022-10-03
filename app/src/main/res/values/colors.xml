@@ -45,4 +45,11 @@
     <color name="color_type_pokemon_fairy">#FFB0FF</color>
     <color name="color_type_pokemon_fairy_light">#ffd7ff</color>
 
+    <color name="color_stat_pokemon_hp">#FF5959</color>
+    <color name="color_stat_pokemon_attack">#F5AC78</color>
+    <color name="color_stat_pokemon_defense">#FAE078</color>
+    <color name="color_stat_pokemon_special_attack">#9DB7F5</color>
+    <color name="color_stat_pokemon_special_defense">#A6D98C</color>
+    <color name="color_stat_pokemon_speed">#FA92B2</color>
+
 </resources>
