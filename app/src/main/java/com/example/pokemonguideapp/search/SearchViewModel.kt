@@ -15,15 +15,20 @@ class SearchViewModel:ViewModel() {
     private val _pokemon = MutableLiveData<PokemonResponse?>(null)
     val pokemon: LiveData<PokemonResponse?> = _pokemon
 
+    private val _showProgressBar = MutableLiveData<Boolean>(false)
+    val showProgressBar : MutableLiveData<Boolean> = _showProgressBar
+
     init {
         interactor = SearchInteractor()
     }
 
     fun searchPokemon(namePokemon: String){
+        _showProgressBar.value = true
         CoroutineScope(Dispatchers.IO).launch{
             interactor.searchPokemonByName(namePokemon){
                 _pokemon.postValue(it)
             }
+            _showProgressBar.postValue(false)
         }
     }
 

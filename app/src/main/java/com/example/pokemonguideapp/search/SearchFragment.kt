@@ -75,6 +75,9 @@ class SearchFragment : Fragment() {
                 mBinding.clPokemon.visibility = View.VISIBLE
             }
         }
+        mViewModel.showProgressBar.observe(viewLifecycleOwner){
+            mBinding.pbSearchPokemon.visibility = if(it) View.VISIBLE else View.GONE
+        }
     }
 
     private fun updatePokemonView(pokemon: PokemonResponse) {
