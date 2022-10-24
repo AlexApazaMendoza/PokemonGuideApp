@@ -31,18 +31,20 @@ class PokemonStatAdapter(private val dataSet:MutableList<Stat>):RecyclerView.Ada
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         with(holder){
             mBinding.tvNameStatPokemon.text = dataSet[position].stat.name.uppercase()
-            mBinding.pbStatPokemon.progress = dataSet[position].baseStat.toInt() / 3
-            mBinding.pbStatPokemon.setIndicatorColor(
-                when(dataSet[position].stat.name){
-                    "hp" -> ContextCompat.getColor(mContext, R.color.color_stat_pokemon_hp)
-                    "attack" -> ContextCompat.getColor(mContext, R.color.color_stat_pokemon_attack)
-                    "defense" -> ContextCompat.getColor(mContext, R.color.color_stat_pokemon_defense)
-                    "special-attack" -> ContextCompat.getColor(mContext, R.color.color_stat_pokemon_special_attack)
-                    "special-defense" -> ContextCompat.getColor(mContext, R.color.color_stat_pokemon_special_defense)
-                    "speed" -> ContextCompat.getColor(mContext, R.color.color_stat_pokemon_speed)
-                    else -> ContextCompat.getColor(mContext, R.color.color_stat_pokemon_hp)
-                }
-            )
+            mBinding.pbStatPokemon.apply {
+                progress = dataSet[position].baseStat.toInt() / 3
+                setIndicatorColor(
+                    when(dataSet[position].stat.name){
+                        "hp" -> ContextCompat.getColor(mContext, R.color.color_stat_pokemon_hp)
+                        "attack" -> ContextCompat.getColor(mContext, R.color.color_stat_pokemon_attack)
+                        "defense" -> ContextCompat.getColor(mContext, R.color.color_stat_pokemon_defense)
+                        "special-attack" -> ContextCompat.getColor(mContext, R.color.color_stat_pokemon_special_attack)
+                        "special-defense" -> ContextCompat.getColor(mContext, R.color.color_stat_pokemon_special_defense)
+                        "speed" -> ContextCompat.getColor(mContext, R.color.color_stat_pokemon_speed)
+                        else -> ContextCompat.getColor(mContext, R.color.color_stat_pokemon_hp)
+                    }
+                )
+            }
             mBinding.tvValueStatPokemon.text = "${dataSet[position].baseStat} / 300"
         }
     }

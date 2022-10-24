@@ -12,10 +12,7 @@ class SearchViewModel:ViewModel() {
 
     val interactor: SearchInteractor
 
-    private val _onSearchPokemon = MutableLiveData<Boolean>(false)
-    val onSearchPokemon: MutableLiveData<Boolean> = _onSearchPokemon//livedata
-
-    private val _pokemon = MutableLiveData<PokemonResponse?>()
+    private val _pokemon = MutableLiveData<PokemonResponse?>(null)
     val pokemon: LiveData<PokemonResponse?> = _pokemon
 
     init {

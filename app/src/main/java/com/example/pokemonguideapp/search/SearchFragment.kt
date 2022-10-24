@@ -62,22 +62,17 @@ class SearchFragment : Fragment() {
 
     private fun setUpViews() {
         mBinding.btnSearchPokemon.setOnClickListener {
-            mViewModel.onSearchPokemon.value = true
+            mViewModel.searchPokemon(mBinding.etNamePokemon.text.toString().lowercase().trim())
         }
     }
 
     private fun setUpViewModel() {
         mViewModel = ViewModelProvider(this)[SearchViewModel::class.java]
 
-        mViewModel.onSearchPokemon.observe(viewLifecycleOwner){
-            if(it){
-                mViewModel.searchPokemon(mBinding.etNamePokemon.text.toString())
-                mViewModel.onSearchPokemon.value = false
-            }
-        }
         mViewModel.pokemon.observe(viewLifecycleOwner){
             if(it != null){
                 updatePokemonView(it)
+                mBinding.clPokemon.visibility = View.VISIBLE
             }
         }
     }
@@ -89,7 +84,7 @@ class SearchFragment : Fragment() {
             tvHeightPokemon.text = pokemon.height.toString().toHeightPokemonDisplay()
             tvWeightPokemon.text = pokemon.weight.toString().toWeightPokemonDisplay()
 
-            root.setBackgroundResource(
+            clPokemon.setBackgroundResource(
                 when(pokemon.types.first().type.name){
                     "steel" -> R.color.color_type_pokemon_steel_light
                     "water" -> R.color.color_type_pokemon_water_light
@@ -140,7 +135,6 @@ class SearchFragment : Fragment() {
             layoutManager = mLinearLayout
             adapter = mPokemonStatAdapter
         }
-
     }
 
     companion object {

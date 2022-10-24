@@ -51,8 +51,10 @@
         app:layout_constraintEnd_toEndOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clPokemon"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             android:padding="@dimen/common_padding_default">
 
             <androidx.constraintlayout.widget.Guideline
@@ -77,6 +79,7 @@
                 android:id="@+id/imgPokemon"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
+                android:padding="@dimen/common_padding_min"
                 android:layout_marginVertical="@dimen/common_margin_min"
                 android:layout_marginHorizontal="@dimen/common_margin_middle"
                 app:layout_constraintDimensionRatio="H, 4:3"
