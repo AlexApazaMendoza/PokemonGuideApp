@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "26807977937",
+    "project_id": "pokemonguideapp-154df",
+    "storage_bucket": "pokemonguideapp-154df.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:26807977937:android:f77c53a00fda2baadb42f0",
+        "android_client_info": {
+          "package_name": "com.example.pokemonguideapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "26807977937-9idbn3c4e9kfljcubt7rvcgrknpgf3vg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.pokemonguideapp",
+            "certificate_hash": "aeffe91706b81e91b1bfc3fa0202071552d8f5a8"
+          }
+        },
+        {
+          "client_id": "26807977937-ffjdutcg1ipoifh23ef637qggj9m58qm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCp5uPbNqYXI_KIkBa3AJc-j9mgkCVMUsg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "26807977937-ffjdutcg1ipoifh23ef637qggj9m58qm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
