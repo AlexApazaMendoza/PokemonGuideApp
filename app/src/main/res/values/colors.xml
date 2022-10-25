@@ -8,6 +8,8 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
+    <color name="background_color_gray">#ECECEC</color>
+
     <color name="color_type_pokemon_normal">#DDCCAA</color>
     <color name="color_type_pokemon_normal_light">#eee5d4</color>
     <color name="color_type_pokemon_fighting">#FF6A6A</color>
