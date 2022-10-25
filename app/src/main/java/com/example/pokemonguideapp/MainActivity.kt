@@ -1,8 +1,8 @@
 package com.example.pokemonguideapp
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI.setupWithNavController
@@ -32,8 +32,6 @@ class MainActivity : AppCompatActivity() {
         mBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(mBinding.root)
 
-
-        //
         navController = Navigation.findNavController(this,R.id.navGraphMainHostFragment)
         setupWithNavController(mBinding.bottomNav,navController)
 
@@ -73,7 +71,8 @@ class MainActivity : AppCompatActivity() {
         //val response = result.idpResponse
         if (result.resultCode == RESULT_OK) {
             // Successfully signed in
-            val user = FirebaseAuth.getInstance().currentUser
+            //val user = FirebaseAuth.getInstance().currentUser
+            Toast.makeText(this, getString(R.string.sigin_text_message), Toast.LENGTH_SHORT).show()
             // ...
         } else {
             finish()

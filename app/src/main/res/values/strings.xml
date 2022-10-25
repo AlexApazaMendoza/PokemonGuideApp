@@ -6,4 +6,6 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="logout_text">Cerrar Sesión</string>
+    <string name="logout_text_message">Sesión cerrada exitosamente.</string>
+    <string name="sigin_text_message">Inicio de sesión exitoso</string>
 </resources>

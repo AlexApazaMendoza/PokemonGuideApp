@@ -5,10 +5,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.example.pokemonguideapp.R
 import com.example.pokemonguideapp.databinding.FragmentProfileBinding
 import com.firebase.ui.auth.AuthUI
+import com.google.firebase.auth.FirebaseAuth
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -53,15 +55,25 @@ class ProfileFragment : Fragment() {
 
     private fun setUpViews() {
         mBinding.btnLogout.setOnClickListener {
-            AuthUI.getInstance().signOut(requireContext())
-                .addOnCompleteListener {
-                    requireActivity().finish()
-                }
+            context?.let {
+                AuthUI.getInstance().signOut(it)
+                    .addOnCompleteListener {
+                        Toast.makeText(context,getString(R.string.logout_text_message),Toast.LENGTH_SHORT).show()
+                    }
+            }
         }
     }
 
     private fun setUpViewModel() {
         mViewModel = ViewModelProvider(this)[ProfileViewModel::class.java]
+        mViewModel.user.value = FirebaseAuth.getInstance()
+
+        mViewModel.user.observe(viewLifecycleOwner){
+            if(it != null){
+                mBinding.tvUserName.text = it.currentUser?.displayName
+                mBinding.tvUserEmail.text = it.currentUser?.email
+            }
+        }
     }
 
     companion object {
