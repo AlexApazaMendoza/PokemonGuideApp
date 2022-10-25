@@ -1,5 +1,6 @@
 package com.example.pokemonguideapp
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.navigation.NavController
@@ -15,13 +16,15 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var mBinding: ActivityMainBinding
 
-    //
     private lateinit var navController: NavController
+
+    private lateinit var mAuthListener: FirebaseAuth.AuthStateListener
+    private var mFirebaseAuth: FirebaseAuth? = null
 
     private val signInLauncher = registerForActivityResult(
         FirebaseAuthUIActivityResultContract()
     ) { res ->
-        this.onSignInResult(res)
+        onSignInResult(res)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,25 +37,40 @@ class MainActivity : AppCompatActivity() {
         navController = Navigation.findNavController(this,R.id.navGraphMainHostFragment)
         setupWithNavController(mBinding.bottomNav,navController)
 
-        setUpViews()
+        setUpAuth()
     }
 
-    private fun setUpViews() {
-        // Choose authentication providers
-        val providers = arrayListOf(
-            AuthUI.IdpConfig.EmailBuilder().build(),
-            AuthUI.IdpConfig.GoogleBuilder().build())
+    override fun onResume() {
+        super.onResume()
+        mFirebaseAuth?.addAuthStateListener( mAuthListener )
+    }
 
-        // Create and launch sign-in intent
-        val signInIntent = AuthUI.getInstance()
-            .createSignInIntentBuilder()
-            .setAvailableProviders(providers)
-            .build()
-        signInLauncher.launch(signInIntent)
+    override fun onPause() {
+        super.onPause()
+        mFirebaseAuth?.removeAuthStateListener( mAuthListener )
+    }
+
+    private fun setUpAuth() {
+        mFirebaseAuth = FirebaseAuth.getInstance()
+        mAuthListener = FirebaseAuth.AuthStateListener {
+            val user = it.currentUser
+            if( user == null ){
+                val intent = AuthUI
+                    .getInstance()
+                    .createSignInIntentBuilder()
+                    .setAvailableProviders(
+                        mutableListOf(
+                            AuthUI.IdpConfig.EmailBuilder().build(),
+                            AuthUI.IdpConfig.GoogleBuilder().build()
+                        )
+                    ).build()
+                signInLauncher.launch(intent)
+            }
+        }
     }
 
     private fun onSignInResult(result: FirebaseAuthUIAuthenticationResult) {
-        val response = result.idpResponse
+        //val response = result.idpResponse
         if (result.resultCode == RESULT_OK) {
             // Successfully signed in
             val user = FirebaseAuth.getInstance().currentUser

@@ -68,4 +68,7 @@ dependencies {
 
     // FirebaseUI for Firebase Auth
     implementation 'com.firebaseui:firebase-ui-auth:8.0.1'
+
+    // Work
+    implementation 'androidx.work:work-runtime-ktx:2.7.1'
 }

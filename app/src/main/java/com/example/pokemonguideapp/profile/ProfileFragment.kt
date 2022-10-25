@@ -1,10 +1,14 @@
-package com.example.pokemonguideapp
+package com.example.pokemonguideapp.profile
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
+import com.example.pokemonguideapp.R
+import com.example.pokemonguideapp.databinding.FragmentProfileBinding
+import com.firebase.ui.auth.AuthUI
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -21,6 +25,9 @@ class ProfileFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
+    private lateinit var mBinding: FragmentProfileBinding
+    private lateinit var mViewModel : ProfileViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -32,9 +39,29 @@ class ProfileFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profile, container, false)
+    ): View {
+        mBinding = FragmentProfileBinding.inflate(layoutInflater,container,false)
+        return mBinding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        setUpViewModel()
+        setUpViews()
+    }
+
+    private fun setUpViews() {
+        mBinding.btnLogout.setOnClickListener {
+            AuthUI.getInstance().signOut(requireContext())
+                .addOnCompleteListener {
+                    requireActivity().finish()
+                }
+        }
+    }
+
+    private fun setUpViewModel() {
+        mViewModel = ViewModelProvider(this)[ProfileViewModel::class.java]
     }
 
     companion object {
