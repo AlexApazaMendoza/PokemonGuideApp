@@ -7,17 +7,17 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:26807977937:android:f77c53a00fda2baadb42f0",
+        "mobilesdk_app_id": "1:26807977937:android:5a497d9600154a74db42f0",
         "android_client_info": {
-          "package_name": "com.example.pokemonguideapp"
+          "package_name": "com.alpamedev.pokemonguideapp"
         }
       },
       "oauth_client": [
         {
-          "client_id": "26807977937-9idbn3c4e9kfljcubt7rvcgrknpgf3vg.apps.googleusercontent.com",
+          "client_id": "26807977937-n2ct6j83pbljf9s59u3bg37iemardtde.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.pokemonguideapp",
+            "package_name": "com.alpamedev.pokemonguideapp",
             "certificate_hash": "aeffe91706b81e91b1bfc3fa0202071552d8f5a8"
           }
         },
