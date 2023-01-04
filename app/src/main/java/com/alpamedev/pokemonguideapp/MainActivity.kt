@@ -1,8 +1,8 @@
 package com.alpamedev.pokemonguideapp
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI.setupWithNavController
@@ -10,7 +10,10 @@ import com.alpamedev.pokemonguideapp.databinding.ActivityMainBinding
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
 import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.MobileAds
 import com.google.firebase.auth.FirebaseAuth
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -63,8 +66,16 @@ class MainActivity : AppCompatActivity() {
                         )
                     ).build()
                 signInLauncher.launch(intent)
+            } else{
+                loadAds()
             }
         }
+    }
+
+    private fun loadAds() {
+        MobileAds.initialize(this) { }
+        val adRequest = AdRequest.Builder().build()
+        mBinding.adViewBanner.loadAd(adRequest)
     }
 
     private fun onSignInResult(result: FirebaseAuthUIAuthenticationResult) {
@@ -73,6 +84,7 @@ class MainActivity : AppCompatActivity() {
             // Successfully signed in
             //val user = FirebaseAuth.getInstance().currentUser
             Toast.makeText(this, getString(R.string.sigin_text_message), Toast.LENGTH_SHORT).show()
+            loadAds()
             // ...
         } else {
             finish()

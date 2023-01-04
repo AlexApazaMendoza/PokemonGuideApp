@@ -71,4 +71,7 @@ dependencies {
 
     // Work
     implementation 'androidx.work:work-runtime-ktx:2.7.1'
+
+    //Ads Admob
+    implementation 'com.google.android.gms:play-services-ads:21.4.0'
 }
