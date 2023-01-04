@@ -5,10 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.alpamedev.pokemonguideapp.models.PokemonResponse
 import com.alpamedev.pokemonguideapp.models.ResultGeneration
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 class HomeViewModel: ViewModel() {
 
@@ -22,6 +19,10 @@ class HomeViewModel: ViewModel() {
 
     private val interactor: HomeInteractor
 
+    private val coroutineExceptionHandler = CoroutineExceptionHandler{ _, throwable ->
+        throwable.printStackTrace()
+    }
+
     init {
         interactor = HomeInteractor()
         _pokemonList.value = mutableListOf()
@@ -30,7 +31,7 @@ class HomeViewModel: ViewModel() {
     fun getPokemons(){
         interactor.getGenerationList { generationList ->
             _generationList.postValue(generationList)
-            job = CoroutineScope(Dispatchers.IO).launch{
+            job = CoroutineScope(Dispatchers.IO+coroutineExceptionHandler).launch{
                 getPokemonDataListByGeneration(generationList.first())
             }
         }
@@ -43,7 +44,7 @@ class HomeViewModel: ViewModel() {
                 job = null
             }
         }
-        job = CoroutineScope(Dispatchers.IO).launch{
+        job = CoroutineScope(Dispatchers.IO+coroutineExceptionHandler).launch{
             getPokemonDataListByGeneration(generation)
         }
     }

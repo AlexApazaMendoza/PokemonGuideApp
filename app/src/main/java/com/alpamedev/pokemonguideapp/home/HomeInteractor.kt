@@ -5,14 +5,18 @@ import com.alpamedev.pokemonguideapp.models.PokemonResponse
 import com.alpamedev.pokemonguideapp.models.ResultGeneration
 import com.alpamedev.pokemonguideapp.models.ResultPokemonSpecies
 import com.alpamedev.pokemonguideapp.retrofit.RetrofitConfig
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class HomeInteractor {
+    private val coroutineExceptionHandler = CoroutineExceptionHandler{ _, throwable ->
+        throwable.printStackTrace()
+    }
 
     fun getGenerationList(callback: (MutableList<ResultGeneration>) -> Unit){
-        CoroutineScope(Dispatchers.IO).launch {
+        CoroutineScope(Dispatchers.IO+coroutineExceptionHandler).launch {
             val call = RetrofitConfig.pokemonService.searchGenerationList()
             val response = call.body()
             if(call.isSuccessful){
@@ -26,7 +30,7 @@ class HomeInteractor {
     }
 
     fun getPokemonSpecieListByGenerationName(name: String, callback: (MutableList<ResultPokemonSpecies>) -> Unit){
-        CoroutineScope(Dispatchers.IO).launch {
+        CoroutineScope(Dispatchers.IO+coroutineExceptionHandler).launch {
             val call = RetrofitConfig.pokemonService.searchGenerationByName(name)
             val response = call.body()
             if(call.isSuccessful){
@@ -41,7 +45,7 @@ class HomeInteractor {
 
     fun getPokemonDataListByPokemonNameList(names: MutableList<String>, callback: (MutableList<PokemonResponse>) -> Unit){
         var pokemonDataList = mutableListOf<PokemonResponse>()
-        CoroutineScope(Dispatchers.IO).launch {
+        CoroutineScope(Dispatchers.IO+coroutineExceptionHandler).launch {
             for (p in names){
                 val call = RetrofitConfig.pokemonService.searchPokemonByName(p)
                 val response = call.body()
