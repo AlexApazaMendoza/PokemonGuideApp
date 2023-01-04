@@ -19,7 +19,13 @@ android {
     }
 
     buildTypes {
+        debug {
+            manifestPlaceholders = [ ADMOB_APP_ID: "ca-app-pub-3940256099942544~3347511713" ]
+            resValue 'string', 'AD_UNIT_ID_MAIN_BANNER', '"ca-app-pub-3940256099942544/6300978111"'
+        }
         release {
+            manifestPlaceholders = [ ADMOB_APP_ID: "ca-app-pub-5307975559947536~3235920899" ]
+            resValue 'string', 'AD_UNIT_ID_MAIN_BANNER', '"ca-app-pub-5307975559947536/5036636460"'
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }

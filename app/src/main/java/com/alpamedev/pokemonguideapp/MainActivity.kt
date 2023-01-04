@@ -75,7 +75,7 @@ class MainActivity : AppCompatActivity() {
     private fun loadAds() {
         MobileAds.initialize(this) { }
         val adRequest = AdRequest.Builder().build()
-        mBinding.adViewBanner.loadAd(adRequest)
+        mBinding.adViewMainBanner.loadAd(adRequest)
     }
 
     private fun onSignInResult(result: FirebaseAuthUIAuthenticationResult) {
